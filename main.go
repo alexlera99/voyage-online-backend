@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	_ "github.com/rs/cors"
 	"net/http"
 )
 
@@ -24,11 +24,11 @@ type Offers struct {
 type Offer struct {
 	Image string
 	Title string
-	Text string
+	Text  string
 	Price string
 }
 
-func main (){
+func main() {
 	users = make(map[string]string)
 	users["alex"] = "alex"
 	router := mux.NewRouter()
@@ -38,13 +38,14 @@ func main (){
 	router.HandleFunc("/login", login)
 	router.HandleFunc("/register", register)
 	handler := cors.Default().Handler(router)
-	http.ListenAndServe(":8080", handler)
+	err := http.ListenAndServe("0.0.0.0:4443", handler)
+	fmt.Println(err)
 }
 
-func hi (response http.ResponseWriter, request *http.Request){
+func hi(response http.ResponseWriter, request *http.Request) {
 }
 
-func login (response http.ResponseWriter, request *http.Request){
+func login(response http.ResponseWriter, request *http.Request) {
 	var user User
 	json.NewDecoder(request.Body).Decode(&user)
 	_, ok := users[user.Username]
@@ -60,7 +61,7 @@ func login (response http.ResponseWriter, request *http.Request){
 	}
 }
 
-func register (response http.ResponseWriter, request *http.Request){
+func register(response http.ResponseWriter, request *http.Request) {
 	var user User
 	json.NewDecoder(request.Body).Decode(&user)
 	_, ok := users[user.Username]
@@ -73,11 +74,11 @@ func register (response http.ResponseWriter, request *http.Request){
 	}
 }
 
-func lastuser (response http.ResponseWriter, request *http.Request){
+func lastuser(response http.ResponseWriter, request *http.Request) {
 	response.Write([]byte(lastUser))
 }
 
-func images (response http.ResponseWriter, request *http.Request) {
+func images(response http.ResponseWriter, request *http.Request) {
 	var offers Offers
 	offer1 := Offer{
 		Image: "https://images2.bovpg.net/wsdv/media/1/1/5/7/2/157261.jpg",
