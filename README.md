@@ -1,6 +1,6 @@
 <h1>Voyage-online</h1>
 
-In order to run this webpage run
+In order to run this server run
 ```bigquery
 docker pull alexlera/voyage-go
 docker run -dit -p 4443:4443 alexlera/voyage-go
